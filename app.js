@@ -3,6 +3,7 @@
 const canvas = document.getElementById("jsCanvas");
 const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
+const range = document.getElementById("jsRange");
 
 canvas.width = 600;
 canvas.height = 600;
@@ -46,6 +47,16 @@ if(canvas) {
     canvas.addEventListener("mouseleave", stopPainting); //mouse goes ouside the canvas
 }
 
+if(colors) {
 Array.from(colors).forEach(color => color.addEventListener("click", handleColorClick));
-
 //console.log(Array.from(colors));
+};
+
+function handleRangeChange(event) {
+    const size = event.target.value;
+    ctx.lineWidth = size;
+}
+
+if(range) {
+    range.addEventListener("input", handleRangeChange);
+}
