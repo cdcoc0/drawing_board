@@ -5,6 +5,7 @@ const ctx = canvas.getContext("2d");
 const colors = document.getElementsByClassName("jsColor");
 const range = document.getElementById("jsRange");
 const mode = document.getElementById("jsMode");
+const saveBtn = document.getElementById("jsSave");
 
 const INITIAL_COLOR = "#2c2c2c";
 const CANVAS_SIZE = 600;
@@ -12,10 +13,12 @@ const CANVAS_SIZE = 600;
 canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 
+// ctx.fillStyle = "white";
+// ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
 //default
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.lineWidth = 2.5;
-
 ctx.fillStyle = INITIAL_COLOR;
 //ctx.fillRect(50, 20, 100, 40) //x, y, width, height
 
@@ -55,12 +58,17 @@ function handleCanvasClick(event) {
     };
 }
 
+function handleCM(event) {
+    event.preventDefault();
+}
+
 if(canvas) {
     canvas.addEventListener("mousemove", onMouseMove);
     canvas.addEventListener("mousedown", startPainting); //click
     canvas.addEventListener("mouseup", stopPainting);
     canvas.addEventListener("mouseleave", stopPainting); //mouse goes ouside the canvas
     canvas.addEventListener("click", handleCanvasClick);
+    canvas.addEventListener("contextmenu", handleCM);
 }
 
 if(colors) {
@@ -83,10 +91,24 @@ function handleModeClick(event) {
     }
 }
 
+//to data
+function handleSaveClick(event) {
+    const image = canvas.toDataURL();
+    const link = document.createElement("a");
+    link.href = image;
+    //download = a태그 속성
+    link.download = "paint";
+    link.click();
+}
+
 if(range) {
     range.addEventListener("input", handleRangeChange);
 }
 
 if(mode) {
     mode.addEventListener("click", handleModeClick);
+}
+
+if(saveBtn) {
+    saveBtn.addEventListener("click", handleSaveClick);
 }
